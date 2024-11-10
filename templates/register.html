@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrar - Sistema</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="register-container">
+        <h2>Registrar Novo Usuário</h2>
+        <form method="POST" action="{{ url_for('register_page') }}">
+            <input type="text" name="username" placeholder="Nome de Usuário" required>
+            <input type="text" name="cpf" placeholder="CPF" required>
+            <input type="text" name="nome_pai" placeholder="Nome do Pai">
+            <input type="text" name="nome_mae" placeholder="Nome da Mãe">
+            <input type="date" name="data_nascimento" placeholder="Data de Nascimento" required>
+            <input type="text" name="endereco" placeholder="Endereço" required>
+            <input type="text" name="cep" placeholder="CEP" required>
+            <input type="text" name="bairro" placeholder="Bairro" required>
+            <input type="text" name="cidade" placeholder="Cidade" required>
+            <input type="text" name="estado" placeholder="Estado" required>
+            <input type="email" name="email" placeholder="E-mail" required>
+            <input type="text" name="whatsapp" placeholder="WhatsApp">
+            <input type="password" name="password" placeholder="Senha" required>
+            <button type="submit">Registrar</button>
+            <button onclick="window.history.back()">Voltar</button>
+        </form>
+    </div>
+</body>
+</html>
