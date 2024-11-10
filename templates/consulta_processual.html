@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consulta Processual</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <!-- Barra Lateral (Sidebar) -->
+    <div class="sidebar">
+        <h2>Menu</h2>
+        <ul>
+            <li><a href="#">Consulta Processual</a></li>
+            <li><a href="#">Meus Processos</a></li>
+            <li><a href="#">Registrar Boletim de Ocorrência</a></li>
+            <li><a href="#">Ver Boletim de Ocorrência</a></li>
+            <li><a href="#">Notificações</a></li>
+            <li><a href="{{ url_for('logout') }}">Sair</a></li> <!-- Link de Logout Atualizado -->
+        </ul>
+    </div>
+
+    <!-- Conteúdo Principal -->
+    <div class="content">
+        <h1>Consulta Processual</h1>
+        <form>
+            <label for="numero_processo">Nº Processo:</label>
+            <input type="text" id="numero_processo" name="numero_processo">
+            <div class="form-buttons">
+                <button type="submit">Consultar</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
