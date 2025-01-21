@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrar Boletim de Ocorrência</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="sidebar inicio-sidebar">
+        <h2>Menu</h2>
+        <ul>
+            <li><a href="{{ url_for('inicio') }}">Página Inicial</a></li>
+            <li><a href="{{ url_for('consulta_processual') }}">Consulta Processual</a></li>
+            <li><a href="{{ url_for('registrar_boletim') }}">Registrar Boletim de Ocorrência</a></li>
+            <li>
+                <a href="#" onclick="mostrarNotificacao()">
+                    Notificações
+                    {% if usuario.notificacoes %}
+                    <span style="color: red; font-weight: bold;">•</span>
+                    {% endif %}
+                </a>
+            </li>            
+            <li><a href="{{ url_for('logout') }}">Sair</a></li>
+        </ul>
+    </div>
+
+    <div class="content">
+        <h1>Registrar Boletim de Ocorrência</h1>
+        <form method="POST" action="{{ url_for('registrar_boletim') }}">
+            <input type="checkbox" id="importar_dados" name="importar_dados">
+            <label for="importar_dados">Importar meus dados</label><br>
+
+            <input type="text" name="nome_vitima" id="nome_vitima" placeholder="Nome Completo" required>
+            <input type="text" name="cpf_vitima" id="cpf_vitima" placeholder="CPF" required>
+            <input type="date" name="data_nascimento_vitima" id="data_nascimento_vitima" placeholder="Data de Nascimento" required>
+            <input type="text" name="nome_pai_vitima" id="nome_pai_vitima" placeholder="Nome do Pai">
+            <input type="text" name="nome_mae_vitima" id="nome_mae_vitima" placeholder="Nome da Mãe">
+            <input type="text" name="endereco_vitima" id="endereco_vitima" placeholder="Endereço" required>
+            <input type="email" name="email_vitima" id="email_vitima" placeholder="E-mail" required>
+            <input type="text" name="telefone_vitima" id="telefone_vitima" placeholder="Telefone" required>
+
+            <h2>Dados do Crime</h2>
+            <label for="tipo_crime">Tipo de Crime:</label>
+            <select name="tipo_crime" id="tipo_crime" required>
+                <option value="">Selecione</option>
+                <option value="Lesão Corporal Leve">Lesão Corporal Leve – Art. 129 Código Penal</option>
+                <option value="Calúnia">Calúnia – Art. 138 Código Penal</option>
+                <option value="Difamação">Difamação – Art. 139 Código Penal</option>
+                <option value="Injúria">Injúria - Art. 140 Código Penal</option>
+                <option value="Ameaça">Ameaça - Art. 147 Código Penal</option>
+                <option value="Dano">Dano - Art. 163 Código Penal</option>
+                <option value="Receptação Culposa">Receptação Culposa – Art. 180 Código Penal</option>
+                <option value="Resistência">Resistência – Art. 329 Código Penal</option>
+                <option value="Desobediência">Desobediência – Art. 330 Código Penal</option>
+                <option value="Desacato">Desacato – Art. 331 Código Penal</option>
+                <option value="Vias de Fato">Vias de Fato – Art. 21 Lei de Contravenções Penais</option>
+                <option value="Exercício Ilegal da Profissão">Exercício Ilegal da Profissão – Art. 44 Lei de Contravenções Penais</option>
+                <option value="Lesão Corporal Culposa na Direção de Veículo Automotor">Lesão Corporal Culposa na Direção de Veículo Automotor – Art. 303 Código de Trânsito Brasileiro</option>
+                <option value="Dirigir Sem Habilitação Gerando Perigo de Dano">Dirigir Sem Habilitação Gerando Perigo de Dano – Art. 309 Código de Trânsito Brasileiro</option>
+                <option value="Permitir, Confiar ou Entregar Veículo a Pessoa Não Habilitada">Permitir, Confiar ou Entregar Veículo a Pessoa Não Habilitada – Art. 310 Código de Trânsito Brasileiro</option>
+                <option value="Posse de Entorpecentes">Posse de Entorpecentes – Art. 28 da Lei de Drogas</option>
+            </select>
+
+            <label for="data_crime">Data do Crime:</label>
+            <input type="date" name="data_crime" id="data_crime" required>
+            <label for="hora_crime">Hora do Crime:</label>
+            <input type="time" name="hora_crime" id="hora_crime" required>
+
+            <label for="local_crime">Local do Crime:</label>
+            <select name="local_crime" id="local_crime" required>
+                <option value="presencial">Presencial</option>
+                <option value="online">Online</option>
+            </select>
+            <input type="text" name="endereco_crime" id="endereco_crime" placeholder="Endereço do Crime">
+
+            <h2>Dados do Autor do Fato</h2>
+            <input type="text" name="nome_acusado" placeholder="Nome Completo" required>
+            <input type="text" name="endereco_acusado" placeholder="Endereço">
+            <input type="text" name="cpf_acusado" placeholder="CPF">
+            <input type="email" name="email_acusado" placeholder="E-mail">
+            <input type="text" name="telefone_acusado" placeholder="Telefone">
+
+            <h2>Descrição do Fato</h2>
+            <textarea name="descricao_fato" maxlength="1000" required></textarea>
+
+            <button type="submit">Registrar Boletim</button>
+        </form>
+    </div>
+    <script>
+        // ... (script para mostrar/esconder o campo de endereço do crime) ...
+        // Script para mostrar/esconder o campo de endereço do crime
+        const localCrimeSelect = document.getElementById('local_crime');
+        const enderecoCrimeInput = document.getElementById('endereco_crime');
+
+        localCrimeSelect.addEventListener('change', () => {
+            if (localCrimeSelect.value === 'presencial') {
+                enderecoCrimeInput.style.display = 'block';
+            } else {
+                enderecoCrimeInput.style.display = 'none';
+            }
+        });
+
+        // Script para importar dados do usuário
+        const importarDadosCheckbox = document.getElementById('importar_dados');
+        const nomeVitimaInput = document.getElementById('nome_vitima');
+        const cpfVitimaInput = document.getElementById('cpf_vitima');
+        const dataNascimentoVitimaInput = document.getElementById('data_nascimento_vitima');
+        const nomePaiVitimaInput = document.getElementById('nome_pai_vitima');
+        const nomeMaeVitimaInput = document.getElementById('nome_mae_vitima');
+        const enderecoVitimaInput = document.getElementById('endereco_vitima');
+        const emailVitimaInput = document.getElementById('email_vitima');
+        const telefoneVitimaInput = document.getElementById('telefone_vitima');
+
+        // Verificar se o usuário está definido (enviado do backend)
+        {% if usuario %}
+        const usuario = {
+            nome: '{{ usuario.username }}', 
+            cpf: '{{ usuario.cpf }}',
+            dataNascimento: '{{ usuario.data_nascimento }}', 
+            nomePai: '{{ usuario.nome_pai }}', 
+            nomeMae: '{{ usuario.nome_mae }}',
+            endereco: '{{ usuario.endereco }}',
+            email: '{{ usuario.email }}',
+            telefone: '{{ usuario.whatsapp }}' 
+        };
+
+        // Preencher os campos se o checkbox estiver marcado ao carregar a página
+        if (importarDadosCheckbox.checked) {
+            preencherCamposUsuario();
+        }
+
+        importarDadosCheckbox.addEventListener('change', () => {
+            if (importarDadosCheckbox.checked) {
+                preencherCamposUsuario();
+            } else {
+                limparCampos();
+            }
+        });
+
+        function preencherCamposUsuario() {
+            nomeVitimaInput.value = usuario.nome;
+            cpfVitimaInput.value = usuario.cpf;
+            dataNascimentoVitimaInput.value = usuario.dataNascimento;
+            nomePaiVitimaInput.value = usuario.nomePai;
+            nomeMaeVitimaInput.value = usuario.nomeMae;
+            enderecoVitimaInput.value = usuario.endereco;
+            emailVitimaInput.value = usuario.email;
+            telefoneVitimaInput.value = usuario.telefone;
+        }
+
+        function limparCampos() {
+            nomeVitimaInput.value = '';
+            cpfVitimaInput.value = '';
+            dataNascimentoVitimaInput.value = '';
+            nomePaiVitimaInput.value = '';
+            nomeMaeVitimaInput.value = '';
+            enderecoVitimaInput.value = '';
+            emailVitimaInput.value = '';
+            telefoneVitimaInput.value = '';
+        }
+        {% endif %}
+    </script>
+
+        <div id="modalNotificacao" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: white; padding: 20px; box-shadow: 0px 4px 8px rgba(0,0,0,0.2); border-radius: 10px; z-index: 1000;">
+        <h3>Notificação</h3>
+        {% if evento %}
+            <p>Há uma audiência marcada para {{ evento.data.strftime('%d-%m-%Y') }} às {{ evento.descricao.split(' às ')[-1] }}.</p>
+        {% else %}
+            <p>Não há notificações para exibir no momento.</p>
+        {% endif %}
+        <button onclick="fecharNotificacao()">Ok</button>
+    </div>
+    
+    <div id="modalBackdrop" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); z-index: 999;" onclick="fecharNotificacao()"></div>
+    <script>
+        function mostrarNotificacao() {
+            document.getElementById('modalNotificacao').style.display = 'block';
+            document.getElementById('modalBackdrop').style.display = 'block';
+        }
+    
+        function fecharNotificacao() {
+            document.getElementById('modalNotificacao').style.display = 'none';
+            document.getElementById('modalBackdrop').style.display = 'none';
+    
+            // Atualizar no backend para marcar a notificação como lida
+            fetch('/marcar_notificacao_lida', { method: 'POST' });
+        }
+    </script>
+
+    <div id="modalNotificacao" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: white; padding: 20px; box-shadow: 0px 4px 8px rgba(0,0,0,0.2); border-radius: 10px; z-index: 1000;">
+        <h3>Notificação</h3>
+        {% if evento %}
+            <p>Há uma audiência marcada para {{ evento.data.strftime('%d-%m-%Y') }} às {{ evento.descricao.split(' às ')[-1] }}.</p>
+        {% else %}
+            <p>Não há notificações para exibir no momento.</p>
+        {% endif %}
+        <button onclick="fecharNotificacao()">Ok</button>
+    </div>
+
+    <div id="modalBackdrop" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); z-index: 999;" onclick="fecharNotificacao()"></div>
+    <script>
+        function mostrarNotificacao() {
+            document.getElementById('modalNotificacao').style.display = 'block';
+            document.getElementById('modalBackdrop').style.display = 'block';
+        }
+
+        function fecharNotificacao() {
+            document.getElementById('modalNotificacao').style.display = 'none';
+            document.getElementById('modalBackdrop').style.display = 'none';
+
+            // Atualizar no backend para marcar a notificação como lida
+            fetch('/marcar_notificacao_lida', { method: 'POST' });
+        }
+    </script>    
+</body>
+</html>
