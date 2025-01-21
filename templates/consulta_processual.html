@@ -11,11 +11,17 @@
     <div class="sidebar">
         <h2>Menu</h2>
         <ul>
+            <li><a href="{{ url_for('inicio') }}">Página Inicial</a></li>
             <li><a href="#">Consulta Processual</a></li>
-            <li><a href="#">Meus Processos</a></li>
-            <li><a href="#">Registrar Boletim de Ocorrência</a></li>
-            <li><a href="#">Ver Boletim de Ocorrência</a></li>
-            <li><a href="#">Notificações</a></li>
+            <li><a href="{{ url_for('registrar_boletim') }}">Registrar Boletim de Ocorrência</a></li>
+            <li>
+                <a href="#" onclick="mostrarNotificacao()">
+                    Notificações
+                    {% if usuario and usuario.notificacoes %}
+                    <span style="color: red; font-weight: bold;">•</span>
+                    {% endif %}
+                </a>
+            </li>            
             <li><a href="{{ url_for('logout') }}">Sair</a></li> <!-- Link de Logout Atualizado -->
         </ul>
     </div>
@@ -23,7 +29,7 @@
     <!-- Conteúdo Principal -->
     <div class="content">
         <h1>Consulta Processual</h1>
-        <form>
+        <form method="POST" action="/consulta_processual">
             <label for="numero_processo">Nº Processo:</label>
             <input type="text" id="numero_processo" name="numero_processo">
             <div class="form-buttons">
@@ -31,5 +37,32 @@
             </div>
         </form>
     </div>
+
+    <div id="modalNotificacao" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: white; padding: 20px; box-shadow: 0px 4px 8px rgba(0,0,0,0.2); border-radius: 10px; z-index: 1000;">
+        <h3>Notificação</h3>
+        {% if evento %}
+            <p>Há uma audiência marcada para {{ evento.data.strftime('%d-%m-%Y') }} às {{ evento.descricao.split(' às ')[-1] }}.</p>
+        {% else %}
+            <p>Não há notificações para exibir no momento.</p>
+        {% endif %}
+        <button onclick="fecharNotificacao()">Ok</button>
+    </div>
+    
+    <div id="modalBackdrop" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); z-index: 999;" onclick="fecharNotificacao()"></div>
+    <script>
+        function mostrarNotificacao() {
+            document.getElementById('modalNotificacao').style.display = 'block';
+            document.getElementById('modalBackdrop').style.display = 'block';
+        }
+    
+        function fecharNotificacao() {
+            document.getElementById('modalNotificacao').style.display = 'none';
+            document.getElementById('modalBackdrop').style.display = 'none';
+    
+            // Atualizar no backend para marcar a notificação como lida
+            fetch('/marcar_notificacao_lida', { method: 'POST' });
+        }
+    </script>    
+    
 </body>
 </html>
