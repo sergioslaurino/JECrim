@@ -12,11 +12,21 @@ body {
 /* Estilo da barra lateral */
 .sidebar {
     background-color: #2c3e50;
-    width: 400px;
+    width: 250px; /* Largura ajustada */
     padding: 20px;
     color: #ecf0f1;
     height: 100vh;
+    position: fixed; /* Fixar a barra lateral */
+    left: 0;
+    top: 0;
+}
+
+.inicio-sidebar {
     position: left;
+    position: fixed; /* Fixa a barra lateral na tela */
+    left: 0; /* Define a posição à esquerda */
+    top: 0; /* Define a posição no topo */
+    height: 100vh;
 }
 
 .sidebar h2 {
@@ -40,12 +50,12 @@ body {
 
 /* Estilo do conteúdo principal */
 .content {
-    margin-top: 0;
+    margin-top: 500px;
     padding-top: 0;
     padding: 20px;
     background-color: #f2f2f2;
     width: calc(100% - 250px); /* Ocupa o restante da tela */
-    margin-left: 50px; /* Espaço para a barra lateral fixa */
+    margin-left: 350px; /* Espaço para a barra lateral fixa */
     min-height: 100vh; /* Garante que o conteúdo preencha toda a altura */
 
 }
@@ -119,83 +129,4 @@ form button:hover {
     border-radius: 5px;
     border: 1px solid #ccc;
     font-size: 14px;
-}
-
-/* Estilo uniforme para os botões de Login e Registrar */
-.button-group {
-    display: flex;
-    gap: 10px;
-    width: 100%; /* Garante que o grupo de botões ocupe toda a largura do contêiner */
-}
-
-.button-group button, .button-group .register-button {
-    flex: 1;
-    padding: 10px;
-    font-size: 16px;
-    border-radius: 5px;
-    border: none;
-    cursor: pointer;
-    text-align: center;
-    text-decoration: none;
-    color: white;
-}
-
-/* Estilo específico para o botão de Login */
-.button-group button {
-    background-color: #0073e6;
-}
-
-.button-group button:hover {
-    background-color: #005bb5;
-}
-
-/* Estilo específico para o botão Registrar */
-.button-group .register-button {
-    background-color: #4CAF50;
-}
-
-.button-group .register-button:hover {
-    background-color: #45a049;
-}
-
-/* Estilo da tela de registro */
-.register-container {
-    background-color: #ffffff;
-    padding: 20px;
-    margin-top: 120px;
-    align-items: center;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    width: 300px;
-    display: flex;
-    flex-direction: column;
-}
-
-.register-container h2 {
-    color: #0073e6;
-}
-
-.register-container input {
-    width: 100%;
-    padding: 10px;
-    margin: 8px 0;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-}
-
-.register-container button {
-    width: 100%;
-    padding: 10px;
-    background-color: #0073e6;
-    border: none;
-    border-radius: 5px;
-    color: white;
-    font-size: 16px;
-    cursor: pointer;
-    margin-top: 10px;
-}
-
-.register-container button:hover {
-    background-color: #005bb5;
 }
